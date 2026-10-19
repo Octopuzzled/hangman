@@ -207,6 +207,27 @@ keyboardContainer.addEventListener("click", (event) => {
     guessLetter(button.id);
 });
 
+// Physical keyboard: listen on the whole page, not on the button container
+document.addEventListener("keydown", (event) => {
+    // ignore shortcuts like Ctrl+R or Cmd+C
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    // ignore typing while the category dropdown has focus
+    if (event.target.tagName === "SELECT") return;
+
+    // only accept the letters A-Z
+    if (!/^[a-z]$/i.test(event.key)) return;
+
+    // game is over, keyboard is locked
+    if (keyboardContainer.classList.contains("keyboard-locked")) return;
+
+    // find the matching on-screen button and skip letters already used
+    const button = document.getElementById(event.key.toUpperCase());
+    if (!button || button.disabled) return;
+
+    guessLetter(button.id);
+});
+
 // Buttons for game difficulty
 document.querySelectorAll(".game-difficulty-section button").forEach((btn) => {
     btn.addEventListener("click", () => initiateGameField(btn.dataset.mode));

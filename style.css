@@ -1,126 +1,303 @@
+/* ==========================================================
+   Hangman – paper & pencil theme
+   Fonts are hosted locally in the fonts/ folder (download from Google Fonts)
+   ========================================================== */
+
+@font-face {
+    font-family: "Patrick Hand";
+    src: url("./fonts/PatrickHand-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Caveat";
+    src: url("./fonts/Caveat-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --desk: #e8dec7; /* background behind the sheet */
+    --paper: #fbf7ec; /* the sheet itself */
+    --grid: #d9e2ea; /* graph paper lines */
+    --graphite: #35322d; /* pencil */
+    --graphite-soft: #7a7365; /* soft pencil / helper text */
+    --red-pencil: #b5443a; /* red colored pencil */
+    --blue-pencil: #2f5d8a; /* blue colored pencil */
+    --font-body: "Patrick Hand", "Comic Sans MS", cursive;
+    --font-heading: "Caveat", "Patrick Hand", "Comic Sans MS", cursive;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    min-height: 100vh;
+    font-family: var(--font-body);
+    font-size: 20px;
+    color: var(--graphite);
+    background-color: var(--desk);
+}
+
+/* The "sheet": graph paper with a soft shadow, slightly tilted */
 main {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-width: 900px;
+    gap: 16px;
+    max-width: 580px;
+    align-items: center;
+    margin: 32px auto;
+    padding: 32px 24px;
+    background-color: var(--paper);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+    border: 1px solid #cfc4aa;
+    border-radius: 4px 8px 5px 9px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.15),
+        0 12px 30px rgba(80, 60, 20, 0.25);
+    transform: rotate(-0.3deg);
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--graphite);
+    text-decoration: underline wavy var(--red-pencil);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+}
+
+/* ---------- Category ---------- */
+
+.category-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--graphite-soft);
+}
+
+#category-select {
+    font-family: var(--font-body);
+    font-size: 20px;
+    color: var(--graphite);
+    background-color: var(--paper);
+    border: 2px solid var(--graphite);
+    /* hand-drawn look: different radius on every corner (see explanation) */
+    border-radius: 8px 3px 9px 4px / 4px 9px 3px 8px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+#category-select:hover,
+#category-select:focus {
+    outline: none;
+    transform: rotate(-1deg);
+    border-color: var(--blue-pencil);
+}
+
+/* ---------- Difficulty / new game ---------- */
+
+.game-difficulty-section {
+    display: flex;
+    gap: 12px;
+}
+
+.new-game-btn {
+    font-family: var(--font-body);
+    font-size: 20px;
+    color: var(--graphite);
+    background-color: var(--paper);
+    border: 2px solid var(--graphite);
+    border-radius: 8px 3px 9px 4px / 4px 9px 3px 8px;
+    padding: 6px 20px;
+    cursor: pointer;
+    /* hard offset shadow without blur looks like a second pencil stroke */
+    box-shadow: 2px 3px 0 rgba(53, 50, 45, 0.35);
+    transition: all 0.15s ease-in-out;
+}
+
+.new-game-btn:hover {
+    background-color: #fff3c4; /* highlighter yellow */
+    transform: rotate(-1.5deg) translateY(-2px);
+    box-shadow: 3px 5px 0 rgba(53, 50, 45, 0.35);
+}
+
+.new-game-btn:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
+}
+
+.new-game-btn-hidden {
+    display: none;
+}
+
+/* ---------- Gallows & stick figure ---------- */
+
+.figure-section {
+    display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 20px auto;
+    padding: 8px 16px;
 }
 
-.letters{
-    display: flex;
-    gap: 8px;
+/* overrides the stroke attributes set in the HTML */
+.hangman-part {
+    stroke: var(--graphite);
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
-.letters{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* stick figure drawn with the red pencil (gallows stay graphite) */
+#part-head,
+#part-body,
+#part-arms,
+#part-arms-2,
+#part-legs,
+#part-legs-2 {
+    stroke: var(--red-pencil);
 }
 
-/* Macht Körperteile standardmäßig unsichtbar */
 .hangman-part.hidden {
     display: none;
 }
 
-/* Container für die Tastatur über die Klasse ansprechen */
+/* ---------- Word & remaining tries ---------- */
+
+.word-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+#trys {
+    color: var(--graphite-soft);
+    font-size: 20px;
+}
+
+.letters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 44px;
+    letter-spacing: 6px;
+    text-align: center;
+    word-break: break-all;
+    color: var(--graphite);
+}
+
+/* ---------- Keyboard ---------- */
+
 .keyboard-container {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     max-width: 480px;
     justify-content: center;
-    margin: 20px auto;
+    margin: 8px auto;
 }
 
-/* Das Design der einzelnen Tasten-Buttons innerhalb des Containers */
 .keyboard-container button {
-    background-color: #ffffff;
-    color: #333333;
-    border: 2px solid #d1d5db;
-    border-radius: 8px;
-    width: 45px;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
+    font-family: var(--font-body);
+    background-color: var(--paper);
+    color: var(--graphite);
+    border: 2px solid var(--graphite);
+    border-radius: 8px 3px 9px 4px / 4px 9px 3px 8px;
+    width: 44px;
+    height: 48px;
+    font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 2px 3px 0 rgba(53, 50, 45, 0.35);
     transition: all 0.15s ease-in-out;
 }
 
-/* Hover-Effekt (wenn die Maus darüber schwebt) */
 .keyboard-container button:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-    transform: translateY(-2px);
+    background-color: #fff3c4;
+    transform: rotate(-3deg) translateY(-2px);
 }
 
-/* Active-Effekt (wenn man auf die Taste klickt) */
 .keyboard-container button:active {
-    background-color: #e5e7eb;
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translate(2px, 3px);
+    box-shadow: none;
 }
 
-/* Deaktivierte Tasten (z.B. nach dem Klicken) */
-.keyboard-container button.disabled, 
+/* used letters: crossed out and faded */
+.keyboard-container button.disabled,
 .keyboard-container button:disabled {
-    background-color: #9ca3af;
-    color: #ffffff;
-    border-color: #6b7280;
+    background-color: transparent;
+    color: var(--graphite-soft);
+    border-color: var(--graphite-soft);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
-    opacity: 0.6;
+    opacity: 0.45;
 }
 
+/* blocks all clicks after the game has ended */
 .keyboard-locked {
-    pointer-events: none; /* Verhindert jegliche Klicks, ändert aber nicht die Optik */
+    pointer-events: none;
 }
 
-.new-game-btn {
-    background-color: #2563eb; /* Ein kräftiges, schönes Blau */
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.2s ease-in-out;
-    margin-top: 15px;
-}
-
-.new-game-btn:hover {
-    background-color: #1d4ed8; /* Etwas dunkleres Blau */
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
-}
-
-.new-game-btn:active {
-    background-color: #1e40af;
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.new-game-btn-hidden{
-    display: none;
-}
+/* ---------- Game end & statistics ---------- */
 
 .game-management-section {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
 .game-statement {
-    color: darkred;
+    font-family: var(--font-heading);
+    font-size: 32px;
     font-weight: 700;
+    color: var(--red-pencil);
+    text-align: center;
+}
+
+.game-history-wrapper {
+    color: var(--graphite-soft);
+    font-size: 18px;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 600px) {
+    main {
+        margin: 0;
+        min-height: 100vh;
+        padding: 24px 12px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        transform: none;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .letters {
+        font-size: 32px;
+        letter-spacing: 3px;
+    }
+
+    .keyboard-container button {
+        width: 40px;
+        height: 44px;
+    }
 }
