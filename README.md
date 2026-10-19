@@ -4,6 +4,10 @@ A browser-based Hangman game built with plain HTML, CSS and JavaScript. The inte
 
 This project is part of my retraining as a **Fachinformatiker für Anwendungsentwicklung** (IT specialist in application development). I built it to practise DOM manipulation, event handling and structuring a small project into modules.
 
+<p align="center">
+<img src="./assets/img/screenshot.png" alt="Screenshot of the Hangman game" height="400">
+</p>
+
 ## Features
 
 - Two word categories: technology and animals
