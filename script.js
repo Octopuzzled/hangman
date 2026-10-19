@@ -38,7 +38,7 @@ const partsDifficult = [
     ["part-arms", "part-arms-2", "part-legs", "part-legs-2"],
 ];
 
-let activeParts = []; // Speichert das für das aktuelle Spiel gültige Array
+let activeParts = []; // for active array
 
 let word = [];
 let keyArray = [];
@@ -49,16 +49,15 @@ let gamesWon = 0;
 let gamesLost = 0;
 let currentMode = "normal";
 
-let trySection = document.getElementById("trys");
-let wordSection = document.getElementById("word");
-let keyboardSection = document.getElementById("keyboard");
-let gameStatement = document.getElementById("gameEnd");
-let gameButton = document.getElementById("new-game");
-let keyboardContainer = document.getElementById("keyboard");
+const trySection = document.getElementById("trys");
+const wordSection = document.getElementById("word");
+const gameStatement = document.getElementById("gameEnd");
+const gameButton = document.getElementById("new-game");
+const keyboardContainer = document.getElementById("keyboard");
 
 initiateGameField("normal", words);
 
-function initiateGameField(gameMode, wordArray) {
+function initiateGameField(gameMode) {
     if (gameMode) currentMode = gameMode;
     switch (currentMode) {
         case "easy":
@@ -85,7 +84,7 @@ function initiateGameField(gameMode, wordArray) {
     gameStatement.innerText = "";
     gameButton.classList.add("new-game-btn-hidden");
     wordSection.textContent = "";
-    keyboardSection.innerHTML = "";
+    keyboardContainer.innerHTML = "";
     errorCount = 0;
     resetStickFigure();
     updateWordDisplay();
@@ -119,7 +118,7 @@ function initiateWord() {
 
 function initiateKeyboard() {
     keyArray.forEach((key) => {
-        keyboardSection.innerHTML += `<button id=${key} class="key-button">${key}</button>`;
+        keyboardContainer.innerHTML += `<button id=${key} class="key-button">${key}</button>`;
     });
 }
 
