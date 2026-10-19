@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hangman</title>
+        <link rel="stylesheet" href="style.css" />
+        <script defer type="module" src="./script.js"></script>
+    </head>
+    <body>
+        <main>
+            <h1>Galgenmännchen</h1>
+
+            <section class="category-section">
+                <label for="category-select">Thema wählen:</label>
+                <select id="category-select">
+                    <option value="tech">Technik</option>
+                    <option value="animals">Tiere</option>
+                </select>
+            </section>
+
+            <section class="game-difficulty-section">
+                <button id="easy-game" class="new-game-btn" data-mode="easy">
+                    Easy
+                </button>
+                <button
+                    id="normal-game"
+                    class="new-game-btn"
+                    data-mode="normal"
+                >
+                    Normal
+                </button>
+                <button
+                    id="difficult-game"
+                    class="new-game-btn"
+                    data-mode="difficult"
+                >
+                    Difficult
+                </button>
+            </section>
+
+            <section id="stickfigure" class="figure-section">
+                <svg height="220" width="160">
+                    <!-- 1. Floor beam -->
+                    <line
+                        x1="10"
+                        y1="200"
+                        x2="100"
+                        y2="200"
+                        stroke="black"
+                        stroke-width="4"
+                        class="hangman-part hidden"
+                        id="part-base"
+                    />
+                    <!-- 2. Post -->
+                    <line
+                        x1="40"
+                        y1="20"
+                        x2="40"
+                        y2="200"
+                        stroke="black"
+                        stroke-width="4"
+                        class="hangman-part hidden"
+                        id="part-pole"
+                    />
+                    <!-- 3. Upper beam -->
+                    <line
+                        x1="40"
+                        y1="20"
+                        x2="100"
+                        y2="20"
+                        stroke="black"
+                        stroke-width="4"
+                        class="hangman-part hidden"
+                        id="part-beam"
+                    />
+                    <!-- 4. Rope -->
+                    <line
+                        x1="100"
+                        y1="20"
+                        x2="100"
+                        y2="50"
+                        stroke="black"
+                        stroke-width="4"
+                        class="hangman-part hidden"
+                        id="part-rope"
+                    />
+
+                    <!-- Stickfigure -->
+                    <!-- 5. Head -->
+                    <circle
+                        cx="100"
+                        cy="70"
+                        r="15"
+                        stroke="black"
+                        stroke-width="3"
+                        fill="none"
+                        class="hangman-part hidden"
+                        id="part-head"
+                    />
+                    <!-- 6. Body -->
+                    <line
+                        x1="100"
+                        y1="85"
+                        x2="100"
+                        y2="130"
+                        stroke="black"
+                        stroke-width="3"
+                        class="hangman-part hidden"
+                        id="part-body"
+                    />
+                    <!-- 7. Arms -->
+                    <line
+                        x1="100"
+                        y1="100"
+                        x2="80"
+                        y2="120"
+                        stroke="black"
+                        stroke-width="3"
+                        class="hangman-part hidden"
+                        id="part-arms"
+                    />
+                    <line
+                        x1="100"
+                        y1="100"
+                        x2="120"
+                        y2="120"
+                        stroke="black"
+                        stroke-width="3"
+                        class="hangman-part hidden"
+                        id="part-arms-2"
+                    />
+                    <!-- 8. Legs -->
+                    <line
+                        x1="100"
+                        y1="130"
+                        x2="85"
+                        y2="160"
+                        stroke="black"
+                        stroke-width="3"
+                        class="hangman-part hidden"
+                        id="part-legs"
+                    />
+                    <line
+                        x1="100"
+                        y1="130"
+                        x2="115"
+                        y2="160"
+                        stroke="black"
+                        stroke-width="3"
+                        class="hangman-part hidden"
+                        id="part-legs-2"
+                    />
+                </svg>
+            </section>
+
+            <section class="word-section">
+                <p id="trys"></p>
+                <div id="word" class="letters"></div>
+            </section>
+
+            <section class="keyboard-section">
+                <div id="keyboard" class="keyboard-container"></div>
+            </section>
+
+            <section class="game-management-section">
+                <p id="gameEnd" class="game-statement"></p>
+                <div id="game-history" class="game-history-wrapper"></div>
+                <button id="new-game" class="new-game-btn-hidden new-game-btn">
+                    Neues Spiel
+                </button>
+            </section>
+        </main>
+    </body>
+</html>
